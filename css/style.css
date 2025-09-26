@@ -1,0 +1,91 @@
+/* --- CSS: 9x9に合わせたサイズ設定 (レスポンシブ対応) --- */
+:root {
+    --board-size: 9;     /* 盤面のサイズ (JavaScriptと合わせる) */
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    background-color: #f4f7f6;
+}
+
+h1 {
+    color: #333;
+}
+
+#game-container {
+    position: relative; 
+    width: 95%;
+    max-width: 400px; /* PCでの最大幅 */
+    aspect-ratio: 1 / 1; /* 常に正方形を維持 */
+    border: 5px solid #4a91e28d;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    background-color: #eeeeee00;
+    margin-bottom: 20px;
+    background-image: url("../img/handmade-seal.png");
+    background-size: cover;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    background-position: calc(50% + 4px) calc(50% + 4px);
+}
+
+.tile {
+    position: absolute; 
+    /* width, height, font-size はJSで設定 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #4a90e2;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 3px; 
+    user-select: none;
+    
+    /* スライドアニメーションとフェードアウト */
+    transition: transform 0.1s ease-out, opacity 0.5s ease-out;
+}
+
+.tile.cleared {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.tile:hover {
+    background-color: #3a75c1;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+#message {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    min-height: 25px;
+}
+#message.win {
+    color: #2ecc7000;
+    animation: pulse 1s infinite;
+}
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 3px #c0392b;
+    margin-top: 10px;
+}
+button:active {
+    box-shadow: 0 1px #c0392b;
+    transform: translateY(2px);
+}
