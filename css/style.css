@@ -1,6 +1,6 @@
 /* --- CSS: 9x9に合わせたサイズ設定 (レスポンシブ対応) --- */
 :root {
-    --board-size: 9;     /* 盤面のサイズ (JavaScriptと合わせる) */
+    --board-size: 6;     /* 盤面のサイズ (JavaScriptと合わせる) */
 }
 
 body {

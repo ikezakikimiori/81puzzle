@@ -1,7 +1,7 @@
-// --- JavaScript: 9x9 (81マス) パズルロジック (レスポンシブ対応) ---
+// --- パズルロジック (レスポンシブ対応) ---
 
-const BOARD_SIZE = 9; // 盤面のサイズ
-let board = [];       // パズルの論理的な状態 (9x9配列)
+const BOARD_SIZE = 6; // 盤面のサイズ
+let board = [];       // パズルの論理的な状態
 let tiles = {};       // タイル番号をキーにしたDOM要素の参照
 let movesCount = 0;
 
@@ -12,7 +12,7 @@ const messageElement = document.getElementById('message');
 let TILE_SIZE = 0;
 let GAP_SIZE = 0;
 
-// --- 論理関数 (変更なし) ---
+// --- ゲームロジック関数 ---
 
 // 指定されたタイルの位置 {row, col} を返すヘルパー関数
 function getTilePos(currentBoard, tile) {
@@ -140,13 +140,9 @@ function getTilePosition(r, c) {
 function updateDimensions() {
     const containerWidth = gameContainer.offsetWidth;
     
-    // 全体の幅 = (タイルサイズ * 9) + (隙間 * 8)
-    // 隙間をタイルの幅の特定の割合にする (例: 1/8)
-    // containerWidth = 9 * TILE_SIZE + 8 * (TILE_SIZE / 8)
-    // containerWidth = 9 * TILE_SIZE + TILE_SIZE
-    // containerWidth = 10 * TILE_SIZE
-    TILE_SIZE = containerWidth / 10;
-    GAP_SIZE = TILE_SIZE / 8;
+    // 盤面の幅からタイルと隙間のサイズを計算 (6.5 = タイル6個 + 隙間5個 * 0.1タイル幅)
+    TILE_SIZE = containerWidth / 6.5; // 6.5 = 6 + 5 * 0.1
+    GAP_SIZE = TILE_SIZE / 10;        // 隙間はタイルの10%
 
     // 全てのタイルのサイズを更新
     for (const tileValue in tiles) {
@@ -217,12 +213,12 @@ function handleTileClick(tileValue) {
     } else {
         messageElement.textContent = `❌ ${tileValue} は隣に空きがないので移動できません。`;
         messageElement.classList.remove('win');
-    }飽き
+    }
 }
 
 function startGame() {
     board = createBoard();
-    shuffleBoard(board, 1000);
+    shuffleBoard(board, 500); // 盤面が小さいのでシャッフル回数を調整
     movesCount = 0;
 
     const validationError = validateBoard(board);
@@ -244,7 +240,12 @@ function startGame() {
 
 // DOMが読み込まれたらゲームを開始し、リサイズイベントにも対応
 document.addEventListener('DOMContentLoaded', () => {
-    startGame();
+    const startButton = document.getElementById('start-button');
+    if (startButton) {
+        startButton.addEventListener('click', startGame);
+    }
+
+    startGame(); // 初回読み込み時にゲームを開始
     // 遅延させて初期表示のズレを防ぐ
     setTimeout(() => {
         window.addEventListener('resize', updateDimensions);
